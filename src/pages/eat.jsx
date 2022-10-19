@@ -7,15 +7,18 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 
-const Buy = () => {
+const Eat = () => {
   const [amount, setAmount] = useState("");
   const { user } = useContext(AuthContext);
   const { setDonut } = useContext(DonutContext);
 
-  const buyHandler = (e) => {
+  const eatHandler = (e) => {
     e.preventDefault();
     console.log(amount);
-    setDonut(preDonut => preDonut + parseInt(amount));
+    setDonut(preDonut => {
+      if (preDonut < parseInt(amount)) return 0
+      else return  preDonut - parseInt(amount)
+    });
     setAmount("");
   };
 
@@ -28,9 +31,9 @@ const Buy = () => {
             style={{ width: "18rem" }}
             className="mx-auto"
           >
-            <Card.Header>Buy Donut</Card.Header>
+            <Card.Header>Eat Donut</Card.Header>
             <Card.Body>
-              <Form onSubmit={buyHandler}>
+              <Form onSubmit={eatHandler}>
                 
                   <Form.Label htmlFor="amount">How many pieces</Form.Label>
                   <Form.Control
@@ -42,7 +45,7 @@ const Buy = () => {
                     className="text-center"
                   />
                 
-                <Button variant="primary" type="submit" className="mt-2">BUY</Button>
+                <Button variant="primary" type="submit" className="mt-2">EAT</Button>
               </Form>
             </Card.Body>
           </Card>
@@ -56,4 +59,4 @@ const Buy = () => {
   );
 };
 
-export default Buy;
+export default Eat;

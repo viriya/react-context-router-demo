@@ -1,10 +1,11 @@
 import { Button, Card, Form } from "react-bootstrap";
 import { useContext, useState } from "react";
+import { Navigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../context/auth-context";
 
 const Login = () => {
-  const { isLoggedIn, setLogin } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,7 +28,7 @@ const Login = () => {
       })
       .then((resp) => {
         console.log(resp.data)
-        setLogin(true);
+        setUser({ isLoggedIn: true, name: resp.data.username});
         setUsername('')
         setPassword('')
       })
@@ -42,8 +43,8 @@ const Login = () => {
       <Card>
         <Card.Header>LOGIN</Card.Header>
         <Card.Body>
-          {isLoggedIn ? (
-            <h2>You're LoggedIn</h2>
+          {user.isLoggedIn ? (
+            <Navigate to="/" replace={true} />
           ) : (
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
